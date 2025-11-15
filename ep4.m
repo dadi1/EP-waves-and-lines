@@ -1,5 +1,6 @@
 %% Script para PTC3314 - Exercício de Simulação 4
 % Baseado no NUSP 12544308
+% MODIFICADO: Eixo Y do Gráfico (a) ajustado para [0 100]
 
 clear;
 clc;
@@ -66,6 +67,7 @@ legend('Ângulo Transmitido $\theta_2$', sprintf('Ângulo Crítico $\\theta_c = 
 title('Gráfico (a): $\theta_2$ vs $\theta_1$', 'Interpreter', 'latex');
 xlabel('Ângulo de Incidência $\theta_1$ (graus)', 'Interpreter', 'latex');
 ylabel('Ângulo de Transmissão $\theta_2$ (graus)', 'Interpreter', 'latex');
+ylim([0 100]); % <--- MODIFICAÇÃO SOLICITADA
 grid on;
 
 %% ------------------- b) Impedância de Carga Z_L -------------------
@@ -175,19 +177,7 @@ beta_z1_d = k1 * cos(theta_1_d_rad);
 Hy_neg = H_y1_plus * abs(exp(-1i * beta_z1_d * z_neg) - rho_0_d * exp(1i * beta_z1_d * z_neg));
 
 % z > 0 (Ar): Onda Evanescente
-% beta_z2 = k2 * cos(theta_2) = -j * alpha_z
 alpha_z_d = k2 * sqrt(argumento_sqrt_d);
-% H_y(z) = H_y1+ * (1 - rho_0_d) * exp(-alpha_z * z)
-% Usamos (1-rho_0) da fórmula (164) H_y(z,x) = (1-rho_0)*...
-% Mas E_x(z,x) = eta_2*cos(theta_2)*(1-rho_0)*...
-% Cuidado: rho_0 foi E_x / E_x_inc. H_y ~ E_x / (eta*cos(theta)).
-% A fórmula (163) é H_y(x,z) = H_y1+ * ... * [exp - rho_0 * exp]
-% A fórmula (164) é H_y(x,z) = (1 - rho_0_E) * H_y1+ * ...
-% O rho_0 que calculamos foi para E_x.
-% rho_H = -rho_E
-% Vamos checar a continuidade em z=0
-% H_y(0-) = H_y1+ * (1 - rho_0)
-% H_y(0+) = H_y1+ * (1 - rho_0) ... Sim, a fórmula (164) usa o rho_0 de E.
 Hy_at_0 = H_y1_plus * abs(1 - rho_0_d);
 Hy_pos = Hy_at_0 * exp(-alpha_z_d * z_pos);
 
